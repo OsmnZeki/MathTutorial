@@ -36,6 +36,12 @@ public class MyVector3D
     {
         return new MyVector3D(vect1.x + vect2.x, vect1.y + vect2.y, vect1.z + vect2.z);
     }
+
+    public static MyVector3D operator *(MyVector3D vect1, float value)
+    {
+        return new MyVector3D(vect1.x * value, vect1.y * value, vect1.z * value);
+    }
+    
 }
 
 public static class Vector3Extension

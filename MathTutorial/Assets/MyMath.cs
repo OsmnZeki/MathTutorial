@@ -81,4 +81,11 @@ public class MyMath
         var rotatedVect = MyMath.Rotate(forward, radians, clockwise);
         return rotatedVect;
     }
+
+    public static MyVector3D Lerp(MyVector3D start, MyVector3D end, float t)
+    {
+        t = Mathf.Clamp(t, 0, 1);
+        MyVector3D v = end - start;
+        return start + v * t;
+    }
 }
