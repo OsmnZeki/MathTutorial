@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,24 @@ public class MyVector3D
     public static MyVector3D operator *(MyVector3D vect1, float value)
     {
         return new MyVector3D(vect1.x * value, vect1.y * value, vect1.z * value);
+    }
+
+    public MyVector3D Perp()
+    {
+        return new MyVector3D(-y, x,0);
+    }
+
+    public static void DrawLine(MyVector3D startPoint, MyVector3D endPoint, float width, Color color)
+    {
+        GameObject line = new GameObject("Line_" + startPoint.ToVector().ToString() + "_" + endPoint.ToVector().ToString());
+        LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        lineRenderer.material.color = color;
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0,startPoint.ToVector());
+        lineRenderer.SetPosition(1,endPoint.ToVector());
+        lineRenderer.startWidth = width;
+        lineRenderer.endWidth = width;
     }
     
 }
