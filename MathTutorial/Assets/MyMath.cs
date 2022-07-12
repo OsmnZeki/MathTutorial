@@ -71,6 +71,84 @@ public class MyMath
         return position + translateVector;
     }
 
+    public static MyVector3D MTranslate(MyVector3D position, MyVector3D translateVector)
+    {
+        float[] values =
+        {
+            1, 0, 0, translateVector.x,
+            0, 1, 0, translateVector.y,
+            0, 0, 1, translateVector.z,
+            0, 0, 0, 1,
+        };
+        Matrix translateMatrix = new Matrix(4, 4, values);
+
+        var translatedMatrix = translateMatrix * position;
+        return translatedMatrix.AsVector();
+    }
+
+    public static MyVector3D MScale(MyVector3D position, MyVector3D scale)
+    {
+        float[] values =
+        {
+            scale.x, 0, 0, 0,
+            0, scale.y, 0, 0,
+            0, 0, scale.z, 0,
+            0, 0, 0, 1,
+        };
+        Matrix scaleMatrix = new Matrix(4, 4, values);
+
+        var scaledMatrix = scaleMatrix * position;
+        return scaledMatrix.AsVector();
+    }
+
+    public static MyVector3D MRotate(MyVector3D position, Vector3 angles, bool clockWiseX, bool clockWiseY,
+        bool clockWiseZ)
+    {
+        if (clockWiseX)
+        {
+            angles.x = 2 * Mathf.PI - angles.x;
+        }
+        if (clockWiseY)
+        {
+            angles.y = 2 * Mathf.PI - angles.y;
+        }
+        if (clockWiseZ)
+        {
+            angles.z = 2 * Mathf.PI - angles.z;
+        }
+
+        float[] xRollValues =
+        {
+            1, 0, 0, 0,
+            0, Mathf.Cos(angles.x), -Mathf.Sin(angles.x), 0,
+            0, Mathf.Sin(angles.x), Mathf.Cos(angles.x), 0,
+            0, 0, 0, 1,
+        };
+        
+        float[] yRollValues =
+        {
+            Mathf.Cos(angles.y), 0, Mathf.Sin(angles.y), 0,
+            0, 1, 0, 0,
+            -Mathf.Sin(angles.y), 0, Mathf.Cos(angles.y), 0,
+            0, 0, 0, 1,
+        };
+        
+        float[] zRollValues =
+        {
+            Mathf.Cos(angles.z), -Mathf.Sin(angles.z), 0, 0,
+            Mathf.Sin(angles.z), Mathf.Cos(angles.z), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        };
+
+        Matrix xRollMatrix = new Matrix(4, 4, xRollValues);
+        Matrix yRollMatrix = new Matrix(4, 4, yRollValues);
+        Matrix zRollMatrix = new Matrix(4, 4, zRollValues);
+
+        Matrix rotatedMatrix = zRollMatrix * yRollMatrix * xRollMatrix * position;
+        return rotatedMatrix.AsVector();
+    }
+
     public static MyVector3D LookAt2D(MyVector3D position, MyVector3D forward, MyVector3D target)
     {
         var distanceVector = target - position;

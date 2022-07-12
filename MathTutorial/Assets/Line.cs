@@ -53,6 +53,7 @@ namespace LineMath
             return new MyVector3D(xt, yt, zt);
         }
 
+        
         public static bool IsLineSegIntersecting(Line l1, Line l2, out MyVector3D intersect)
         {
             intersect = new MyVector3D(0, 0, 0);
@@ -70,6 +71,19 @@ namespace LineMath
 
             intersect = l1.A + l1.v * t;
             return true;
+        }
+
+        public MyVector3D Reflect(MyVector3D normal)
+        {
+            MyVector3D norm = normal.GetNormal();
+            MyVector3D vNorm = v.GetNormal();
+
+            float d = MyMath.Dot(norm, vNorm);
+
+            float vn2 = d * 2;
+            MyVector3D r = vNorm - norm * vn2;
+            return r;
+
         }
         
         public float IntersectAt(Plane p)

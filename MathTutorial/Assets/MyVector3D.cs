@@ -8,6 +8,24 @@ public class MyVector3D
     public float x;
     public float y;
     public float z;
+    public float w;
+    
+    public MyVector3D(float x, float y, float z,float w)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
+    }
+
+    public MyVector3D(Vector3 vector3, float w)
+    {
+        x = vector3.x;
+        y = vector3.y;
+        z = vector3.z;
+        this.w = w;
+    }
+    
 
     public MyVector3D(float x, float y, float z)
     {
@@ -23,24 +41,24 @@ public class MyVector3D
         z = vect.z;
     }
 
+    public float[] AsFloats()
+    {
+        return new float[]
+        {
+            x, y, z, w
+        };
+    }
+    
     public Vector3 ToVector()
     {
         return new Vector3(x, y, z);
     }
-
-    public static MyVector3D operator -(MyVector3D vect1, MyVector3D vect2)
-    {
-        return new MyVector3D(vect1.x - vect2.x, vect1.y - vect2.y, vect1.z - vect2.z);
-    }
     
-    public static MyVector3D operator +(MyVector3D vect1, MyVector3D vect2)
+    public MyVector3D GetNormal()
     {
-        return new MyVector3D(vect1.x + vect2.x, vect1.y + vect2.y, vect1.z + vect2.z);
-    }
+        float magnitude = MyMath.Distance(new MyVector3D(0, 0, 0), this);
 
-    public static MyVector3D operator *(MyVector3D vect1, float value)
-    {
-        return new MyVector3D(vect1.x * value, vect1.y * value, vect1.z * value);
+        return new MyVector3D(x / magnitude,y / magnitude,z / magnitude);
     }
 
     public MyVector3D Perp()
@@ -59,6 +77,26 @@ public class MyVector3D
         lineRenderer.SetPosition(1,endPoint.ToVector());
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
+    }
+    
+    public static MyVector3D operator -(MyVector3D vect1, MyVector3D vect2)
+    {
+        return new MyVector3D(vect1.x - vect2.x, vect1.y - vect2.y, vect1.z - vect2.z);
+    }
+    
+    public static MyVector3D operator +(MyVector3D vect1, MyVector3D vect2)
+    {
+        return new MyVector3D(vect1.x + vect2.x, vect1.y + vect2.y, vect1.z + vect2.z);
+    }
+
+    public static MyVector3D operator *(MyVector3D vect1, float value)
+    {
+        return new MyVector3D(vect1.x * value, vect1.y * value, vect1.z * value);
+    }
+    
+    public static MyVector3D operator /(MyVector3D vect1, float value)
+    {
+        return new MyVector3D(vect1.x / value, vect1.y / value, vect1.z / value);
     }
     
 }
